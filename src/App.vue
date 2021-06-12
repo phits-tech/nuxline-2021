@@ -7,7 +7,7 @@
 <style lang="scss">
 @import "~bulma/sass/utilities/_all";
 
-$primary: #32c323;
+$primary: #d6fec9;
 $primary-invert: findColorInvert($primary);
 
 $colors: (
