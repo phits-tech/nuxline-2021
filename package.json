@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "deploy": "vue-cli-service build && firebase deploy --only hosting",
     "fix": "eslint . --fix && prettier --loglevel warn --write \"./*.{html,js,json}\" \".*.{js,json}\"",
     "lint": "eslint . && prettier --check \"./*.{html,js,json}\" \".*.{js,json}\"",
-    "up": "ncu -u && yarn && yarn audit",
-    "build": "vue-cli-service build",
-    "deploy": "vue-cli-service build && firebase deploy --only hosting"
+    "serve": "vue-cli-service serve --open",
+    "up": "ncu -u && yarn && yarn audit"
   },
   "dependencies": {
     "buefy": "^0.9.7",

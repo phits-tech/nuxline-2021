@@ -1,5 +1,7 @@
-import firebaseConfig from './firebase-config'
 import firebase from 'firebase/app'
+
+import firebaseConfig from './firebase-config'
+
 import 'firebase/firestore'
 import 'firebase/storage'
 
