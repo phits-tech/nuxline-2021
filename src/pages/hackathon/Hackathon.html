@@ -1,12 +1,6 @@
-<div class="hero-body padding-img" style="margin: 0px !important; background-color: rgb(214, 254, 201);">
-  <figure class="title-bg">
-    <img src="@/assets/background-paper.png" style="width: 100%;">
-  </figure>
-  <section class="section">
-    <div class="container">
-      <div class="content">
-        <div class="hero-body padding-img">
-          <div class="is-hidden-mobile" style="position: absolute; left: 50px; bottom: 270%; font-size: 19px;">
+<section class="section home-bg home-bg-right" style="background-image: url('/background-intro.png')">
+  <div class="container columns">
+    <div class="column is-half">
             <h1>Hackathon</h1>
 
             <p>Each team must build and present a product made using <a href="https://developers.line.biz/en/">LINE
@@ -22,17 +16,26 @@
             <p>You may begin work on your product prior to the hackathon weekend. It can be an entirely new product,<br>or an
               extension of an existing product. During the weekend you can get guidance from our team of experts &amp;
               mentors.<br>คุณสามารถเริ่มทำงานกับผลิตภัณฑ์ของคุณก่อนวันหยุดสุดสัปดาห์ของ Hackathon อาจเป็นผลิตภัณฑ์ใหม่ทั้งหมด<br>หรือส่วนขยายของผลิตภัณฑ์ที่มีอยู่ ในช่วงสุดสัปดาห์ คุณสามารถขอคำแนะนำจากทีมผู้เชี่ยวชาญและที่ปรึกษาของเรา</p>
+    </div>
+  </div>
+</section>
 
-            <div class="rule" style="margin-left: 600px; margin-top: 17%;">
+<section class="section home-bg home-bg-left" style="background-image: url('/background-rules.png')">
+  <div class="container columns">
+    <div class="column is-half is-offset-one-half">
               <h2>Rules (กติกา)</h2>
                 <ul>
                   <li>Your product must use at least one LINE technology<br>ผลิตภัณฑ์ของคุณต้องใช้เทคโนโลยี LINE อย่างน้อยหนึ่งอย่าง</li><br>
                   <li>Your product cannot have been previously entered into another hackathon/contest<br>ผลิตภัณฑ์ของคุณไม่สามารถเข้าร่วมการแข่งขัน Hackathon/การแข่งขันอื่นได้ก่อนหน้านี้</li><br>
                   <li>Your product must be the sole work of your team<br>ผลิตภัณฑ์ของคุณต้องเป็นผลงานชิ้นเดียวในทีมของคุณ</li>
                 </ul>
-            </div>
-            <br>
-            <div class="schedules" style="margin-top: 10%;">
+    </div>
+  </div>
+</section>
+
+<section class="section home-bg home-bg-right" style="background-image: url('/background-timeline.png')">
+  <div class="container columns">
+    <div class="column is-half">
               <h2>Schedule &amp; Submission (กำหนดการและการส่ง)</h2>
 
                 <p>At the end of the hackathon, each team must <router-link :to="{ name: 'hackathon-submit' }" class="submit">
@@ -66,9 +69,9 @@
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+    </div>
+  </div>
+</section>
 
         <h2>Judges</h2>
         <div class="columns judges">

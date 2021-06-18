@@ -1,3 +1,5 @@
+@import "~bulma/sass/utilities/mixins";
+
 div.judges {
   margin-top: 20px;
 }
@@ -14,6 +16,19 @@ div.judges {
   font-weight: bold;
 }
 
-.hero-body .padding-img {
-  padding: 0px;
+.home-bg {
+  background-size: 50%;
+  background-repeat: no-repeat;
+}
+
+.home-bg-left {
+  background-position: left bottom;
+}
+
+.home-bg-right {
+  background-position: right bottom;
+}
+
+@include mobile {
+  background-size: 100px;
 }
