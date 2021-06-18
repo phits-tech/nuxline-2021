@@ -1,18 +1,7 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true
-  },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/standard',
-    '@vue/typescript'
-  ],
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  },
-  parserOptions: {
-    parser: '@typescript-eslint/parser'
-  }
+  env: { es2021: true, node: true, browser: true, jest: true },
+  extends: ['.eslintrc-js.js'],
+  ignorePatterns: ['**/.*/**/*', '**/node_modules', '**/dist', '**/lib'],
+  overrides: [{ files: ['**/*.ts', '**/*.vue'], extends: ['.eslintrc-vue.js'] }],
+  root: true
 }
