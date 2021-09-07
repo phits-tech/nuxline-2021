@@ -1,54 +1,55 @@
-import type firebase from 'firebase/app'
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import { ValidationProvider, ValidationObserver, extend } from 'vee-validate'
-import { required, email, regex } from 'vee-validate/dist/rules'
-import { firestore, storage, FieldValue, Timestamp } from '@/services/apis/firebase-facade'
+import firebase from 'firebase/app'
+import { extend, ValidationObserver, ValidationProvider } from 'vee-validate'
+import { email, required } from 'vee-validate/dist/rules'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+
+import { FieldValue, firestore, storage, Timestamp } from '@/services/apis/firebase-facade'
 import uidGen from '@/services/uid-gen'
 
 extend('email', { ...email, message: 'Must be a valid email' })
 extend('required', { ...required, message: 'Required' })
 extend('lineId', {
-  validate: (value) => value.match(/[a-zA-Z]/),
+  validate: value => value.match(/[A-Za-z]/),
   message: 'Must be an ID (not a phone number)'
 })
 
 @Component({ components: { ValidationProvider, ValidationObserver } })
 export default class ApplySubmitPage extends Vue {
   // Data & State
-  formTeamName: string = ''
-  formContactName: string = ''
-  formLine: string = ''
-  formEmail: string = ''
-  formCategory: string = 'Entrepreneur'
+  formTeamName = ''
+  formContactName = ''
+  formLine = ''
+  formEmail = ''
+  formCategory = 'Entrepreneur'
   formPresentation: File | null = null
   formPresentationUrl: string | null = null
 
   stateAcceptingApplications = false
-  stateUploadingProgress: number = 0
-  stateSubmitting: boolean = false
+  stateUploadingProgress = 0
+  stateSubmitting = false
 
   // Internal
-  private randomKey = uidGen()
+  private readonly randomKey = uidGen()
   private uploadTaskPres: firebase.storage.UploadTask | null = null
 
   // Events
   @Watch('formPresentation')
-  onPresentationChanged (newValue: File | null, oldValue: File | null) {
-    if (newValue) this.uploadPresentation(newValue)
+  onPresentationChanged(updatedValue: File | null, oldValue: File | null): void {
+    if (updatedValue) this.uploadPresentation(updatedValue)
     if (oldValue) this.deletePresentation(oldValue)
   }
 
   // Methods
-  getPresentationStorageRef (file: File) {
+  getPresentationStorageRef(file: File): string {
     return `/presentations/${this.randomKey}-${file.name}`
   }
 
-  uploadPresentation (file: File) {
+  uploadPresentation(file: File): void {
     if (!this.stateAcceptingApplications) return
 
     // Validation
     const maxSize = 10
-    if (file.size > (maxSize * 1000000)) {
+    if (file.size > (maxSize * 1_000_000)) {
       this.clearPresentationFile()
       this.$buefy.notification.open(`Presentation must be less than ${maxSize}MB`)
       return
@@ -81,7 +82,7 @@ export default class ApplySubmitPage extends Vue {
             this.formPresentationUrl = url
             this.stateUploadingProgress = 100
           })
-          .catch(_err => {
+          .catch(_ => {
             this.clearPresentationFile()
             this.$buefy.notification.open('Upload failed')
           })
@@ -89,9 +90,11 @@ export default class ApplySubmitPage extends Vue {
     )
   }
 
-  deletePresentation (file: File) {
+  deletePresentation(file: File): void {
     if (this.formPresentationUrl) {
-      storage.ref(this.getPresentationStorageRef(file)).delete().catch(_err => {})
+      storage.ref(this.getPresentationStorageRef(file)).delete().catch(_ => {
+        // Ignore error
+      })
     } else if (this.uploadTaskPres) {
       this.uploadTaskPres.cancel()
     }
@@ -99,7 +102,7 @@ export default class ApplySubmitPage extends Vue {
     this.clearPresentationFile()
   }
 
-  clearPresentationFile () {
+  clearPresentationFile(): void {
     // Reset all upload fields
     this.formPresentation = null
     this.formPresentationUrl = null
@@ -107,7 +110,7 @@ export default class ApplySubmitPage extends Vue {
     this.uploadTaskPres = null
   }
 
-  submit () {
+  async submit(): Promise<unknown> {
     if (!this.stateAcceptingApplications) return
 
     // Finish file uploads first
@@ -121,7 +124,7 @@ export default class ApplySubmitPage extends Vue {
     // Data
     const lineIdClean = this.formLine.replace('@', '').toLowerCase()
 
-    const update: any = {
+    const update = {
       updated: FieldValue.serverTimestamp(),
       updates: FieldValue.arrayUnion(Timestamp.now()),
       teamName: this.formTeamName,
@@ -134,17 +137,13 @@ export default class ApplySubmitPage extends Vue {
     }
 
     // Save to Firestore
-    firestore
+    return await firestore
       .collection('teams').doc(lineIdClean)
       .set(update, { merge: true })
-      .then(() => {
-        this.$router.push('confirm')
-      })
-      .catch(err => {
-        if (err) {
-          this.$buefy.notification.open('Could not submit :(')
-          this.stateSubmitting = false
-        }
+      .then(async () => await this.$router.push('confirm'))
+      .catch(_ => {
+        this.$buefy.notification.open('Could not submit :(')
+        this.stateSubmitting = false
       })
   }
 }

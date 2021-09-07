@@ -1,3 +1,5 @@
+@import "~bulma/sass/utilities/mixins";
+
 div.judges {
   margin-top: 20px;
 }
@@ -12,4 +14,46 @@ div.judges {
 
 .submit {
   font-weight: bold;
+}
+
+.main {
+   background-color: #f5fff5;
+}
+
+.bg-image {
+}
+
+.bg-container {
+  max-width: $fullhd;
+  background-color: #d6fec9;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.home-bg {
+  min-height: 28rem;
+  background-size: 35rem; // 28rem * 5:4 aspect
+  background-repeat: no-repeat;
+}
+
+.home-bg-left {
+  background-position: left bottom;
+}
+
+.home-bg-right {
+  background-position: right bottom;
+}
+
+@include tablet-only {
+  .home-bg {
+    padding-bottom: 42rem;
+    background-size: 50rem; // (40rem - 2) * 5:4 aspect
+  }
+}
+
+@include mobile {
+  .home-bg {
+    padding-bottom: 25rem;
+    background-size: 30rem; // (25rem - 1) * 5:4 aspect
+  }
 }

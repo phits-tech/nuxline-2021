@@ -1,23 +1,22 @@
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
+
 import { firestore } from '@/services/apis/firebase-facade'
 
 @Component
 export default class TeamSummaryPage extends Vue {
-  entrepreneurs: Array<any> = []
-  students: Array<any> = []
+  entrepreneurs: unknown[] = []
+  students: unknown[] = []
 
-  private entrepreneursRef = firestore.collection('teams')
+  private readonly entrepreneursRef = firestore.collection('teams')
     .where('category', '==', 'Entrepreneur')
     .orderBy('teamName')
 
-  private studentsRef = firestore.collection('teams')
+  private readonly studentsRef = firestore.collection('teams')
     .where('category', '==', 'Student')
     .orderBy('teamName')
 
-  constructor () {
-    super()
-
-    this.entrepreneursRef.get()
+  async created(): Promise<void> {
+    await this.entrepreneursRef.get()
       .then(snap => {
         snap.docs
           .map(doc => doc.data())
@@ -28,7 +27,7 @@ export default class TeamSummaryPage extends Vue {
           .forEach(data => this.entrepreneurs.push(data))
       })
 
-    this.studentsRef.get()
+    await this.studentsRef.get()
       .then(snap => {
         snap.docs
           .map(doc => doc.data())
@@ -40,6 +39,6 @@ export default class TeamSummaryPage extends Vue {
       })
   }
 
-  titleCase = (str: String) =>
-    str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
+  titleCase = (str: string): string =>
+    str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase())
 }

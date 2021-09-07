@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+
 import * as Pages from '@/pages'
 
 Vue.use(VueRouter)
@@ -33,14 +34,14 @@ const routes: RouteConfig[] = [
       {
         path: 'hackathon-submit',
         name: 'hackathon-submit',
-        beforeEnter () {
+        beforeEnter() {
           location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd1GK2hU0P6j4KnYcQgwZtlCPKNFJsW7GEAHd6bQUnX365ppQ/viewform'
         }
       },
       {
         path: 'watch-live',
         name: 'watch-live',
-        beforeEnter () {
+        beforeEnter() {
           location.href = 'https://www.youtube.com/watch?v=ONy4puYrwyo'
         }
       },
@@ -71,13 +72,13 @@ const routes: RouteConfig[] = [
       // },
       {
         path: 'slides',
-        beforeEnter () {
+        beforeEnter() {
           location.href = 'https://docs.google.com/presentation/d/1hC_nX4zxTnxFkNHXDsEFvzOSywraB_4918EPC4M7UMY/edit?usp=sharing'
         }
       },
       {
         path: 'facebook',
-        beforeEnter () {
+        beforeEnter() {
           location.href = 'https://www.facebook.com/events/893212567778050'
         }
       }
@@ -86,10 +87,10 @@ const routes: RouteConfig[] = [
 ]
 
 const router = new VueRouter({
+  routes,
   mode: 'history',
   base: process.env.BASE_URL,
-  routes,
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(_to, _from, _savedPosition) {
     return { x: 0, y: 0 }
   }
 })
